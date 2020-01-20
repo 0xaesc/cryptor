@@ -1,17 +1,5 @@
 #include "caesar.h"
 
-/*
-int getdif(char first_letter, char last_letter){
-    if (isupper(first_letter)){ first_letter = tolower(first_letter); }
-	if (isupper(last_letter)){ last_letter = tolower(last_letter); }
-
-	int differnce = (int)first_letter - (int)last_letter;
-	if(differnce<0){ differnce = differnce * -1; }
-
-	return differnce;
-}
-*/
-
 int getdif(std::string letters){
 	
 	char first_letter = letters[0];
@@ -55,4 +43,18 @@ std::string converse(std::string cipher, int shift){
 	}
 
 	return cipher;
+}
+
+std::string caesar(std::string mode, std::string text, std::string shift_input){
+	if(mode.compare("match")==0){
+		int shift = getdif(shift_input);
+		text = converse(text, shift);
+	}
+	if(mode.compare("encrypt")==0){
+		text = converse(text, std::stoi(shift_input));
+	}
+	if(mode.compare("decrypt==0")==0){
+		text = converse(text, (std::stoi(shift_input)*(-1)));
+	}
+	return text;
 }
