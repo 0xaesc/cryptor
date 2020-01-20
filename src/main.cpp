@@ -50,8 +50,8 @@ int main(int argc, char const *argv[]) {
 	std::string cipher = readfile(argv[2]);
 
 	std::cout << '\n' << "cipher text:" << '\n' << cipher << std::endl;
-
 	std::cout << "shift: " << shift << std::endl;;
+
 	cipher=converse(cipher, shift);
 
 	std::cout << '\n' << "clear text:" << '\n' << cipher << std::endl;

@@ -1,45 +1,56 @@
 #include "caesar.h"
 
+/*
+int getdif(char first_letter, char last_letter){
+    if (isupper(first_letter)){ first_letter = tolower(first_letter); }
+	if (isupper(last_letter)){ last_letter = tolower(last_letter); }
+
+	int differnce = (int)first_letter - (int)last_letter;
+	if(differnce<0){ differnce = differnce * -1; }
+
+	return differnce;
+}
+*/
+
 int getdif(std::string letters){
-    char first_letter = letters[0];
+	
+	char first_letter = letters[0];
 	char last_letter = letters[1];
 
 	if (isupper(first_letter)){ first_letter = tolower(first_letter); }
 	if (isupper(last_letter)){ last_letter = tolower(last_letter); }
 
-	int dif = (int)first_letter - (int)last_letter;
-	if(dif<0){ dif = dif * -1; }
+	int differnce = (int)first_letter - (int)last_letter;
+	if(differnce<0){ differnce = differnce * -1; }
 
-	return dif;
+	return differnce;
 }
 
-char move(int dist, char letter){
-    dist = dist % 26;
-	bool cap = false;
+char move(char letter, int distance){
+    
+	distance = distance % 26;
+	bool capital = false;
 
-	if(isupper(letter)){ cap=true; letter = tolower(letter); }
+	if(isupper(letter)){ capital=true; letter = tolower(letter); }
 
 	int num = (int)letter;
 
-	num = num + dist - 71;
+	num = num + distance - 71;
 	num = num % 26;
 	letter = 'a' + num;
 
-	if(cap==true){letter = toupper(letter);}
+	if(capital==true){letter = toupper(letter);}
 
 	return letter;
 }
 
 std::string converse(std::string cipher, int shift){
-    shift = shift % 26;
-
-	//std::cout << "cipher conversion:" << std::endl;
+    
+	shift = shift % 26;
 
 	for (long unsigned int i = 0; i < cipher.size(); i++) {
 		if (isalpha(cipher[i])) {
-			//std::cout << cipher[i] << " ·· " << shift << " ··> ";
-			cipher[i] = move(shift, cipher[i]);
-			//std::cout << cipher[i] << std::endl;
+			cipher[i] = move(cipher[i], shift);
 		}
 	}
 
