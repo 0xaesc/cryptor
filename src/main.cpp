@@ -9,6 +9,11 @@
 
 int main(int argc, char const *argv[]) {
 
+/* 
+arameter form:
+./cryptor [encryption_methode] [encrypt/decrypt] [cipherfile/plainfile]
+change to options menu depending on encryption_methode
+*/
 	// check parameters
 
 	if (argc > 4) {
