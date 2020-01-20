@@ -1,24 +1,10 @@
+#include "file.h"
+
 #include <iostream>
 #include <string>
 #include "ctype.h"
 #include <fstream>
 #include <streambuf>
-
-std::string readfile(std::string cipher_file){
-
-	std::ifstream infile(cipher_file);
-	std::string cipher((std::istreambuf_iterator<char>(infile)),
-	std::istreambuf_iterator<char>());
-
-	return cipher;
-}
-
-void writefile(std::string cipher){
-	std::ofstream output;
-	output.open ("out.txt");
-	output << cipher << std::endl;
-	output.close();
-}
 
 int getdif(std::string letters){
 
@@ -91,7 +77,7 @@ int main(int argc, char const *argv[]) {
 		std::cout << "Examples:" << '\n';
 		std::cout << "./caesar encrypt mytext.txt 5 :: this will encrypt the mytext file by a shift of 5" << '\n';
 		std::cout << "./caesar decrypt secret.txt 7 :: this will decrypt the secret file by a shift of 7" << '\n';
-		std::cout << "    NOTE: encrypt and decrypt only differ in the direction of shift. Thus encrypting by x = decrypting by -x" << '\n';
+		std::cout << "NOTE: encrypt and decrypt only differ in the direction of shift. Thus encrypting by x = decrypting by -x" << '\n';
 		std::cout << "./caesar match mystery.txt  Av :: this will output a match to mystery file assuming the shift from A to v" << std::endl;
 		exit(0);
 	}
@@ -117,7 +103,7 @@ int main(int argc, char const *argv[]) {
 
 	std::cout << '\n' << "clear text:" << '\n' << cipher << std::endl;
 
-	writefile(cipher);
+	writefile(cipher, "out.txt");
 
 	return 0;
 }
