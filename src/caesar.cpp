@@ -1,60 +1,79 @@
 #include "caesar.h"
 
-int getdif(std::string letters){
+Caesar::Caesar(std::string config, std::string cipher, std::string out){
+	// need to check validity
+	// should happen in a seperate class
+	config_file.open(config);
+	cipher_file.open(cipher);
+	out_file.open(out);
+	initialize();
+}
+Caesar::~Caesar(void){
+	config_file.close();
+	cipher_file.close();
+	out_file.close();
+}
+
+void Caesar::initialize(){
+	// parsing keyword values
+	// should happen in a seperate class
+}
+
+int Caesar::getdif(char first_letter, char last_letter){
 	
-	char first_letter = letters[0];
-	char last_letter = letters[1];
-
-	if (isupper(first_letter)){ first_letter = tolower(first_letter); }
-	if (isupper(last_letter)){ last_letter = tolower(last_letter); }
-
-	int differnce = (int)first_letter - (int)last_letter;
-	if(differnce<0){ differnce = differnce * -1; }
-
-	return differnce;
-}
-
-char move(char letter, int distance){
-    
-	distance = distance % 26;
-	bool capital = false;
-
-	if(isupper(letter)){ capital=true; letter = tolower(letter); }
-
-	int num = (int)letter;
-
-	num = num + distance - 71;
-	num = num % 26;
-	letter = 'a' + num;
-
-	if(capital==true){letter = toupper(letter);}
-
-	return letter;
-}
-
-std::string converse(std::string cipher, int shift){
-    
-	shift = shift % 26;
-
-	for (long unsigned int i = 0; i < cipher.size(); i++) {
-		if (isalpha(cipher[i])) {
-			cipher[i] = move(cipher[i], shift);
+	int difference = 0;
+	
+	for ( int i = 0; i < alpha_size; i++)
+	{
+		if ( alpha[i] == first_letter ){
+			difference += i;
+		}
+		if ( alpha[i] == last_letter ){
+			difference -= i;
 		}
 	}
-
-	return cipher;
+	
+	return abs(difference);
 }
 
-std::string caesar(std::string mode, std::string text, std::string shift_input){
-	if(mode.compare("match")==0){
-		int shift = getdif(shift_input);
-		text = converse(text, shift);
+std::string Caesar::encode(int shift){
+
+	std::string beta;
+	for (int i = 0; i < alpha_size; i++)
+	{
+		shift += i;
+		shift %= alpha_size;
+
+		beta[i] = alpha[shift];
 	}
-	if(mode.compare("encrypt")==0){
-		text = converse(text, std::stoi(shift_input));
+	
+	return beta;
+}
+
+std::string Caesar::decode(int shift){
+
+	std::string beta;
+	for (int i = 0; i < alpha_size; i++)
+	{
+		shift = i - shift;
+		shift %= alpha_size;
+
+		if (shift<0)
+		{
+			beta[i] = alpha[alpha_size - shift];	
+		} else
+		{
+			beta[i] = alpha[shift];
+		}	
 	}
-	if(mode.compare("decrypt==0")==0){
-		text = converse(text, (std::stoi(shift_input)*(-1)));
-	}
+
+	return beta;	
+}
+
+std::string Caesar::match(char first_letter, char last_letter){
+
+	int shift = getdif(first_letter, last_letter);
+	std::string text = encode(shift);
+	
 	return text;
 }
